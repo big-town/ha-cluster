@@ -1,0 +1,71 @@
+global
+    log         127.0.0.1 local2
+    chroot      /var/lib/haproxy
+    pidfile     /var/run/haproxy.pid
+    maxconn     3000
+    user        haproxy
+    group       haproxy
+    daemon
+    stats socket /var/lib/haproxy/stats
+
+defaults
+    mode                    tcp
+    log                     global
+    retries                 2
+    timeout queue           1m
+    timeout connect         5s
+    timeout client          30m
+    timeout server          30m
+    timeout check           5s
+    maxconn                 3000
+ 
+listen stats
+    mode http
+    bind *:7000
+    stats enable
+    stats uri /
+
+frontend  ft_master
+    bind *:15432
+    default_backend             master
+
+backend master
+    option httpchk GET /master
+    http-check expect status 200
+    default-server inter 3s fall 3 rise 2 on-marked-down shutdown-sessions
+    server pp_pg1 10.102.10.101:5432 maxconn 3000 check port 8008
+    server pp_pg2 10.102.10.102:5432 maxconn 3000 check port 8008
+
+frontend  ft_slave
+    bind *:25432
+    mode tcp
+    default_backend             slave
+    backend slave
+    option httpchk GET /replica
+    http-check expect status 200
+    default-server inter 3s fall 3 rise 2 on-marked-down shutdown-sessions
+    server pp_pg1 10.102.10.101:5432 maxconn 3000 check port 8008
+    server pp_pg2 10.102.10.102:5432 maxconn 3000 check port 8008
+
+frontend  ft_master_pool
+    bind *:16432
+    default_backend             master_pool
+
+backend master_pool
+    option httpchk GET /master
+    http-check expect status 200
+    default-server inter 3s fall 3 rise 2 on-marked-down shutdown-sessions
+    server pp_pg1 10.102.10.101:6432 maxconn 3000 check port 8008
+    server pp_pg2 10.102.10.102:6432 maxconn 3000 check port 8008
+
+frontend  ft_slave_pool
+    bind *:26432
+    mode tcp
+    default_backend             slave_pool
+
+backend slave_pool
+    option httpchk GET /replica
+    http-check expect status 200
+    default-server inter 3s fall 3 rise 2 on-marked-down shutdown-sessions
+    server pp_pg1 10.102.10.101:6432 maxconn 3000 check port 8008
+    server pp_pg2 10.102.10.102:6432 maxconn 3000 check port 8008

@@ -1,0 +1,8 @@
+10.101.10.51 pp_services_1
+10.101.10.52 pp_services_2
+10.101.10.53 pp_services_3
+
+10.101.10.101 pp_pg_1
+10.101.10.102 pp_pg_2
+
+10.101.10.200 ceph_pp_haproxy_1
