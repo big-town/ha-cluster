@@ -9,10 +9,12 @@
 /home/kafka/kafka/bin/zookeeper-shell.sh 127.0.0.1:2181 get /brokers/ids/1
 /home/kafka/kafka/bin/zookeeper-shell.sh 127.0.0.1:2181 ls /brokers/topics
 /home/kafka/kafka/bin/kafka-topics.sh --describe --bootstrap-server localhost:9092
-/home/kafka/kafka/bin/kafka-console-consumer.sh --bootstrap-server 10.101.10.53:9092 --topic events --from-beginning
+/home/kafka/kafka/bin/kafka-consumer-groups.sh --bootstrap-server localhost:9092 --all-groups --describe
+/home/kafka/kafka/bin/kafka-configs.sh --bootstrap-server localhost:9092 --entity-type topics --entity-name events --describe --all
 
 #Принять сообщение
-/home/kafka/kafka/bin/kafka-consumer-groups.sh --bootstrap-server localhost:9092 --all-groups --describe
+/home/kafka/kafka/bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic events --from-beginning
+
 #Отправить сообщение
 echo "Hello, World" | /home/kafka/kafka/bin/kafka-console-producer.sh --broker-list localhost:9092 --topic events > /dev/null
 
