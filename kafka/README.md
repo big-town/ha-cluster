@@ -3,6 +3,8 @@
 /home/kafka/kafka/bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 2 --partitions 3 --topic events
 #Удалить тему
 /home/kafka/kafka/bin/kafka-topics.sh --delete --zookeeper localhost:2181 --topic events
+#Удалить группу
+/home/kafka/kafka/bin/kafka-consumer-groups.sh --bootstrap-server localhost:9092 --delete --group test-gr2
 
 #Диагностика
 /home/kafka/kafka/bin/zookeeper-shell.sh 127.0.0.1:2181 ls /brokers/ids
