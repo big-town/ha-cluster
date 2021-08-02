@@ -56,7 +56,7 @@ bootstrap:
         max_parallel_workers: 40
         max_parallel_maintenance_workers: 4
 
-        max_locks_per_transacton: 64
+        max_locks_per_transaction: 64
         max_prepared_transactions: 0
         wal_level: replica
         wal_log_hints: on
