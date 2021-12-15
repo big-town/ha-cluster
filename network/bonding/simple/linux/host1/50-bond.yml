@@ -1,0 +1,30 @@
+network:
+    version: 2
+
+    ethernets:
+        ens2f0:
+            dhcp4: no
+            dhcp6: no
+        ens2f1:
+            dhcp4: no
+            dhcp6: no
+
+    bonds:
+        bond0:
+            addresses: [10.60.10.153/24, 10.60.20.253/24]
+            gateway4: 10.60.10.1
+            
+            nameservers:
+                addresses:
+                - 8.8.4.4
+            routes:
+            - to: 192.168.122.210/32
+              via: 10.60.10.154
+            - to: 172.17.1.126/32
+              via: 10.60.10.1
+
+            interfaces: [ens2f0, ens2f1]
+            parameters:
+                mode: 802.3ad
+                mii-monitor-interval: 1
+                transmit-hash-policy: layer3+4

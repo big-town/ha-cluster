@@ -1,0 +1,18 @@
+network:
+    version: 2
+
+    ethernets:
+        ens2f0:
+            dhcp4: no
+            dhcp6: no
+        ens2f1:
+            dhcp4: no
+            dhcp6: no
+
+    bonds:
+        bond0:
+            interfaces: [ens2f0, ens2f1]
+            parameters:
+                mode: 802.3ad
+                mii-monitor-interval: 1
+                transmit-hash-policy: layer3+4

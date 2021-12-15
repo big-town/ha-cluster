@@ -1,0 +1,29 @@
+network:
+    version: 2
+
+    ethernets:
+        ens2f0:
+            dhcp4: no
+            dhcp6: no
+        ens2f1:
+            dhcp4: no
+            dhcp6: no
+
+    bonds:
+        bond0:
+            interfaces: [ens2f0, ens2f1]
+            parameters:
+                mode: 802.3ad
+                mii-monitor-interval: 1
+                transmit-hash-policy: layer3+4
+    vlans:
+        vlan10:
+            id: 10
+            link: bond0
+            addresses:
+            - 10.10.10.2/24
+        vlan20:
+            id: 20
+            link: bond0
+            addresses:
+            - 10.20.10.2/24
