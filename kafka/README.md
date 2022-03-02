@@ -29,7 +29,9 @@ echo "Hello, World" | /home/kafka/kafka/bin/kafka-console-producer.sh --broker-l
 ## Очистить все записи во всех партициях
 /home/kafka/kafka/bin/kafka-delete-records.sh --bootstrap-server localhost:9092 --offset-json-file delete.json
 ## delete.json
+```json
 {"partitions": [ 
     { "topic": "events", "partition": 0, "offset": -1 },
     { "topic": "events", "partition": 1, "offset": -1 },
     { "topic": "events", "partition": 2, "offset": -1 } ], "version": 1 }
+```
